@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "725405086519",
+    "firebase_url": "https://nextgoal-7-bf402-default-rtdb.firebaseio.com",
+    "project_id": "nextgoal-7-bf402",
+    "storage_bucket": "nextgoal-7-bf402.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725405086519:android:b7254c1e17226f9226a0b2",
+        "android_client_info": {
+          "package_name": "com.nextgoal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqYPY9pxq1zvEbkaWZFLbejf6SUUfMC1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

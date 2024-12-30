@@ -23,17 +23,16 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    height: 50,
-    width: 120,
-    borderRadius: 50,
+    backgroundColor: 'transparent',
+    height: 90,
+    width: 150,
     alignSelf: 'center',
   },
   animation: {
-    width: 30, // Adjust as needed
-    height: 30, // Adjust as needed
+    width: 50, // Adjust as needed
+    height: 50, // Adjust as needed
     backgroundColor: '#000',
-    borderRadius: 30,
+    borderRadius: 50,
   },
   text: {
     marginTop: 2,

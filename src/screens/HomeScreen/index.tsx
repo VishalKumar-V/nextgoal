@@ -8,25 +8,24 @@ const FirestoreExample = () => {
   const [skillData, setSkillData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const checkImage = () => {
-    fetch(
-      'https://drive.google.com/uc?export=download&id=1BmI1kmWC5oRsKgw-XMNbuY3ItyyeaHh0',
-    )
-      .then(response => {
-        if (response.ok) {
-          console.log('File is accessible:', response);
-        } else {
-          console.log('File is not accessible:', response);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching file:', error);
-      });
-  };
+  // const checkImage = () => {
+  //   fetch(
+  //     'https://drive.google.com/uc?export=download&id=1BmI1kmWC5oRsKgw-XMNbuY3ItyyeaHh0',
+  //   )
+  //     .then(response => {
+  //       if (response.ok) {
+  //         console.log('File is accessible:', response);
+  //       } else {
+  //         console.log('File is not accessible:', response);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching file:', error);
+  //     });
+  // };
 
   useEffect(() => {
     // Fetch data from the 'skills' collection
-    checkImage();
     const fetchData = async () => {
       try {
         const snapshot = await firestore()
@@ -42,21 +41,32 @@ const FirestoreExample = () => {
       } catch (error) {
         console.error('Error fetching Firestore data: ', error);
       } finally {
-        setTimeout(()=> {
+        setTimeout(() => {
           setLoading(false);
-        }, 2000)
+        }, 2000);
       }
     };
     fetchData();
   }, []);
-  console.log('skillll', skillData);
+
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+      }}>
       {loading ? (
-        <FootballLoader/>
+        <FootballLoader />
       ) : skillData ? (
         <>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+          <Text
+            style={{
+              fontSize: 32,
+              fontFamily: 'Poppins-Bold',
+              color: '#fff',
+            }}>
             {skillData.skillName}
           </Text>
           <FastImage
@@ -67,7 +77,8 @@ const FirestoreExample = () => {
             }}
             resizeMode={FastImage.resizeMode.cover}
           />
-          <Text style={{fontSize: 16}}>
+          <Text
+            style={{fontSize: 16, fontFamily: 'Poppins-Bold', color: '#fff'}}>
             Number of Items: {skillData.noOfItems}
           </Text>
         </>

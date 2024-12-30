@@ -6,7 +6,6 @@ import footballAnimation from '../../assets/lottie/footballAnimation.json';
 const FootballLoader = () => {
   return (
     <View style={[styles.container]}>
-      {' '}
       <LottieView
         source={footballAnimation}
         autoPlay
@@ -29,15 +28,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   animation: {
-    width: 50, // Adjust as needed
-    height: 50, // Adjust as needed
+    width: 50,
+    height: 50,
     backgroundColor: '#000',
     borderRadius: 50,
   },
   text: {
     marginTop: 2,
     fontSize: 12,
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
   },

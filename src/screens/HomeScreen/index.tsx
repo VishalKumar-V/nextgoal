@@ -1,40 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ActivityIndicator} from 'react-native';
+import {View, Text, Image, ActivityIndicator, FlatList} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import FastImage from 'react-native-fast-image';
 import FootballLoader from '../../componets/atoms/FootballLoader';
+import ExerciseListView from '../../componets/molecules/ExerciseListView';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import styles from './styles';
 
-const FirestoreExample = () => {
+const HomeScreen = () => {
   const [skillData, setSkillData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // const checkImage = () => {
-  //   fetch(
-  //     'https://drive.google.com/uc?export=download&id=1BmI1kmWC5oRsKgw-XMNbuY3ItyyeaHh0',
-  //   )
-  //     .then(response => {
-  //       if (response.ok) {
-  //         console.log('File is accessible:', response);
-  //       } else {
-  //         console.log('File is not accessible:', response);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching file:', error);
-  //     });
-  // };
-
   useEffect(() => {
-    // Fetch data from the 'skills' collection
     const fetchData = async () => {
       try {
         const snapshot = await firestore()
-          .collection('skills') // Your collection name
-          .doc('1hDFOBtH7ieob0KTK4w8') // Your document ID
+          .collection('skills')
+          .doc('1hDFOBtH7ieob0KTK4w8')
           .get();
 
         if (snapshot.exists) {
-          setSkillData(snapshot.data()); // Set document data to state
+          setSkillData([snapshot.data()]);
         } else {
           console.log('No such document!');
         }
@@ -49,44 +34,27 @@ const FirestoreExample = () => {
     fetchData();
   }, []);
 
+  const renderItem = ({item}: any) => {
+    console.log('propsss-->>>');
+    return <ExerciseListView data={item} />;
+  };
+
+  console.log(skillData);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000',
-      }}>
+    <SafeAreaView style={styles.container}>
       {loading ? (
         <FootballLoader />
       ) : skillData ? (
-        <>
-          <Text
-            style={{
-              fontSize: 32,
-              fontFamily: 'Poppins-Bold',
-              color: '#fff',
-            }}>
-            {skillData.skillName}
-          </Text>
-          <FastImage
-            style={{width: 60, height: 60}}
-            source={{
-              uri: 'https://drive.usercontent.google.com/download?id=1BmI1kmWC5oRsKgw-XMNbuY3ItyyeaHh0&export=download',
-              priority: FastImage.priority.high,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
-          />
-          <Text
-            style={{fontSize: 16, fontFamily: 'Poppins-Bold', color: '#fff'}}>
-            Number of Items: {skillData.noOfItems}
-          </Text>
-        </>
+        <FlatList data={skillData} renderItem={renderItem} />
       ) : (
-        <Text>No Data Found</Text>
+        <View style={styles.errorView}>
+          <Image style={styles.oopsImage} source={require('../../assets/images/oops.png')}/>
+        <Text style={styles.noDataText}>Oops, Something went wrong...</Text>
+        </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default FirestoreExample;
+export default HomeScreen;

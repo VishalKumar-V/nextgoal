@@ -25,7 +25,9 @@ const HomeScreen = (props: any) => {
               });
             });
             setSkillData(user);
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           });
       } catch (error) {
         console.error('Error fetching Firestore data: ', error);
@@ -71,7 +73,7 @@ const HomeScreen = (props: any) => {
         <FootballLoader />
       ) : skillData ? (
         <View style={{flex: 1, width: '100%'}}>
-          <NavBar/>
+          <NavBar />
           <FlatList data={skillData} renderItem={renderItem} />
         </View>
       ) : (

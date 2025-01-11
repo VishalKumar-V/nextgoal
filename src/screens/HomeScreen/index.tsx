@@ -4,34 +4,11 @@ import firestore from '@react-native-firebase/firestore';
 import FootballLoader from '../../componets/atoms/FootballLoader';
 import ExerciseListView from '../../componets/molecules/ExerciseListView';
 import styles from './styles';
+import NavBar from '../../componets/atoms/NavBar';
 
-const HomeScreen = () => {
+const HomeScreen = (props: any) => {
   const [skillData, setSkillData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<any>([]);
-
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('skills')
-      .onSnapshot(querySnapshot => {
-        const user: any[] = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          user.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-
-        setUsers(user);
-        setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
-
-  console.log('userr-->>>>', users);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +24,6 @@ const HomeScreen = () => {
                 key: documentSnapshot.id,
               });
             });
-
             setSkillData(user);
             setLoading(false);
           });
@@ -62,9 +38,19 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
+  const navigateToDetails = (skill: any) => {
+    console.log('pressed', skill);
+    props.navigation.navigate('Details', {skill});
+  };
+
   const renderItem = ({item}: any) => {
-    console.log('propsss-->>>');
-    return <ExerciseListView data={item} />;
+    return (
+      <ExerciseListView
+        data={item}
+        onPress={navigateToDetails}
+        isFromSubSkillScreen={false}
+      />
+    );
   };
 
   const errorView = () => {
@@ -84,7 +70,10 @@ const HomeScreen = () => {
       {loading ? (
         <FootballLoader />
       ) : skillData ? (
-        <FlatList data={skillData} renderItem={renderItem} />
+        <View style={{flex: 1, width: '100%'}}>
+          <NavBar/>
+          <FlatList data={skillData} renderItem={renderItem} />
+        </View>
       ) : (
         errorView()
       )}

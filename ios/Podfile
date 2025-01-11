@@ -17,6 +17,7 @@ end
 target 'NextGoal' do
   config = use_native_modules!
   use_frameworks!
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
   
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCoreInternal', :modular_headers => true
@@ -43,5 +44,9 @@ target 'NextGoal' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+    end
   end
 end

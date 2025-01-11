@@ -1,17 +1,47 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {colors} from '../../styles/colors';
 
 interface IProps {
   data: any;
+  onPress: any;
+  isFromSubSkillScreen: boolean;
 }
 
 const ExerciseListView = (props: IProps) => {
+  const onCardPressed = () => {
+    props.onPress(props.data);
+  };
+
+  const noOfExerciseView = () => {
+    return (
+      <View style={styles.exercise}>
+        <Text style={styles.noOfExercise}>
+          {props.data.noOfItems} exercises
+        </Text>
+      </View>
+    );
+  };
+
+  const skillNameView = () => {
+    const style = !props.isFromSubSkillScreen
+      ? styles.skillText
+      : styles.subSkillText;
+    return (
+      <Text style={style}>
+        {!props.isFromSubSkillScreen
+          ? props.data.skillName
+          : props.data.subSkill}
+      </Text>
+    );
+  };
+
+  const iconStyle = !props.isFromSubSkillScreen ? {} : styles.subSkillIcon;
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onCardPressed}>
       <FastImage
-        style={styles.iconStyle}
+        style={[styles.iconStyle, iconStyle]}
         source={{
           uri: props.data.image,
           priority: FastImage.priority.high,
@@ -20,12 +50,8 @@ const ExerciseListView = (props: IProps) => {
       />
       <View style={styles.innerContainer}>
         <View>
-          <Text style={styles.skillText}>{props.data.skillName}</Text>
-          <View style={styles.exercise}>
-            <Text style={styles.noOfExercise}>
-              {props.data.noOfItems} exercises
-            </Text>
-          </View>
+          {skillNameView()}
+          {!props.isFromSubSkillScreen && noOfExerciseView()}
         </View>
         <View>
           <Image
@@ -34,7 +60,7 @@ const ExerciseListView = (props: IProps) => {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -66,11 +92,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     padding: 4,
+    width: 90,
   },
   noOfExercise: {
     fontSize: 12,
     fontFamily: 'Poppins-Bold',
     color: '#000',
+    top: 1,
   },
   arrowStyle: {
     height: 32,
@@ -82,5 +110,16 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 10,
     margin: 16,
+  },
+  subSkillIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 60,
+    margin: 16,
+  },
+  subSkillText: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Bold',
+    color: colors.white,
   },
 });
